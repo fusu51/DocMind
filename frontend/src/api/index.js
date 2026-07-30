@@ -1,3 +1,5 @@
+import { getToken } from '../auth.js'
+
 const BASE_URL = 'http://localhost:8001/api'
 
 /**
@@ -5,6 +7,11 @@ const BASE_URL = 'http://localhost:8001/api'
  */
 async function request(path, options = {}) {
     const headers = { ...options.headers }
+
+    const token = getToken()
+    if (token) {
+        headers['X-DocMind-Token'] = token
+    }
 
     // DELETE/GET 不带 body，不强行设 Content-Type，避免不必要的预检
     const method = (options.method || 'GET').toUpperCase()
@@ -40,7 +47,10 @@ export function deleteDocument(id) {
 export function uploadDocument(file) {
     const form = new FormData()
     form.append('file', file)
-    return fetch(`${BASE_URL}/upload`, { method: 'POST', body: form }).then(r => r.json())
+    const headers = {}
+    const token = getToken()
+    if (token) headers['X-DocMind-Token'] = token
+    return fetch(`${BASE_URL}/upload`, { method: 'POST', body: form, headers }).then(r => r.json())
 }
 
 // ===== 对话 =====

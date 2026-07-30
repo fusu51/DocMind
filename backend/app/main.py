@@ -4,8 +4,26 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import ALLOWED_ORIGINS
+from .config import ALLOWED_ORIGINS, ACCESS_TOKEN
 from .api import upload, chat, documents, conversations
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.responses import JSONResponse
+
+
+class AuthMiddleware(BaseHTTPMiddleware):
+    """令牌验证中间件 — /api/health 和 OPTIONS 放行"""
+    async def dispatch(self, request, call_next):
+        if request.method == "OPTIONS":
+            return await call_next(request)
+        if request.url.path == "/api/health":
+            return await call_next(request)
+
+        if ACCESS_TOKEN:
+            token = request.headers.get("X-DocMind-Token", "")
+            if token != ACCESS_TOKEN:
+                return JSONResponse(status_code=403, content={"detail": "缺少有效令牌"})
+
+        return await call_next(request)
 
 
 # 抑制 ChromaDB telemetry 日志
@@ -27,6 +45,9 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="DocMind RAG API", version="0.1.0", lifespan=lifespan)
+
+# 令牌验证中间件
+app.add_middleware(AuthMiddleware)
 
 # CORS
 app.add_middleware(

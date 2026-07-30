@@ -20,6 +20,7 @@
 <script setup>
 import { ref } from 'vue'
 import { uploadDocument } from '../api/index.js'
+import { requireAuth } from '../auth.js'
 
 const emit = defineEmits(['uploaded'])
 
@@ -40,6 +41,7 @@ function handleFile(e) {
 }
 
 async function upload(file) {
+  if (!requireAuth()) return
   error.value = ''
   uploading.value = true
   try {

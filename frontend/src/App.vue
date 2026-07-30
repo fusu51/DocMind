@@ -5,6 +5,8 @@
       <nav class="app-nav">
         <router-link to="/chat">问答</router-link>
         <router-link to="/documents">文档管理</router-link>
+        <a href="https://fusu.pw/article/18" target="_blank">使用示例</a>
+        <a href="https://github.com/fusu51/DocMind" target="_blank">GitHub</a>
       </nav>
     </header>
     <main class="app-main">
@@ -14,11 +16,23 @@
         </KeepAlive>
       </router-view>
     </main>
+    <AuthGate ref="authGate" />
   </div>
 </template>
 
 <script setup>
-// 根组件，仅提供导航和路由出口
+import { ref, onMounted } from 'vue'
+import AuthGate from './components/AuthGate.vue'
+import { onShowAuth, isAuthed } from './auth.js'
+
+const authGate = ref(null)
+
+onMounted(() => {
+  // 如果已有令牌，不弹窗
+  if (isAuthed()) return
+  // 注册全局认证拦截
+  onShowAuth(() => authGate.value?.show())
+})
 </script>
 
 <style scoped>

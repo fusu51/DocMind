@@ -31,6 +31,7 @@ import DocSelect from '../components/DocSelect.vue'
 import ChatPanel from '../components/ChatPanel.vue'
 import MessageInput from '../components/MessageInput.vue'
 import ConversationHistory from '../components/ConversationHistory.vue'
+import { requireAuth } from '../auth.js'
 
 const route = useRoute()
 const chatPanel = ref(null)
@@ -41,6 +42,7 @@ const activeConvId = ref(null)
 const selectedDocId = ref(route.params.docId || null)
 
 function handleSend(question) {
+  if (!requireAuth()) return
   activeConvId.value = null
   chatPanel.value?.sendMessage(question, selectedDocId.value)
 }

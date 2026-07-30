@@ -34,6 +34,9 @@ RERANKER_API_KEY = os.getenv("RERANKER_API_KEY", "")  # 空则 fallback 到 EMBE
 # ===== 生成参数 =====
 MAX_CONTEXT_TOKENS = int(os.getenv("MAX_CONTEXT_TOKENS", "3000"))
 
+# ===== 访问控制 =====
+ACCESS_TOKEN = os.getenv("ACCESS_TOKEN", "")
+
 # ===== 拒答阈值 =====
 ABSTAIN_HARD_THRESHOLD = float(os.getenv("ABSTAIN_HARD_THRESHOLD", "0.1"))
 ABSTAIN_SOFT_THRESHOLD = float(os.getenv("ABSTAIN_SOFT_THRESHOLD", "0.3"))
