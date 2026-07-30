@@ -1,6 +1,7 @@
 import { getToken } from '../auth.js'
 
-const BASE_URL = 'http://localhost:8001/api'
+// dev 模式用独立后端，docker/生产用相对路径
+const BASE_URL = import.meta.env.DEV ? 'http://localhost:8001/api' : '/api'
 
 /**
  * 普通 JSON 请求
