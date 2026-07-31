@@ -1,8 +1,9 @@
 """问答 API — SSE 流式返回"""
 import json
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 
+from ..main import verify_token
 from ..models.schemas import ChatRequest
 from ..rag.hybrid_search import hybrid_search
 from ..db.repository import save_conversation
@@ -72,7 +73,7 @@ async def _generate_sse(question: str, doc_id: str | None, history: list = None)
 
 
 @router.post("/chat")
-async def chat_global(req: ChatRequest):
+async def chat_global(req: ChatRequest, _=Depends(verify_token)):
     return StreamingResponse(
         _generate_sse(req.question, doc_id=None, history=req.history),
         media_type="text/event-stream",
@@ -85,7 +86,7 @@ async def chat_global(req: ChatRequest):
 
 
 @router.post("/chat/{doc_id}")
-async def chat_single(doc_id: str, req: ChatRequest):
+async def chat_single(doc_id: str, req: ChatRequest, _=Depends(verify_token)):
     from ..db.repository import get_document
     if not get_document(doc_id):
         raise HTTPException(404, "文档不存在")

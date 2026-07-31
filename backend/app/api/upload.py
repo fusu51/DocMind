@@ -1,8 +1,9 @@
 """文档上传 API — 上传 → 解析 → 语义分块 → 向量化 → 入库"""
 import os
 import uuid
-from fastapi import APIRouter, UploadFile, File, HTTPException
+from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 
+from ..main import verify_token
 from ..config import UPLOAD_DIR
 from ..rag.parser import parse_document
 from ..rag.chunker import chunk_document
@@ -15,7 +16,7 @@ ALLOWED_EXTENSIONS = {".pdf", ".docx", ".doc", ".md", ".txt"}
 
 
 @router.post("/upload")
-async def upload_document(file: UploadFile = File(...)):
+async def upload_document(file: UploadFile = File(...), _=Depends(verify_token)):
     """上传文档并自动索引"""
 
     # 1. 校验文件类型
