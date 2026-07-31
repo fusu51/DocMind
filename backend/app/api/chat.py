@@ -3,7 +3,7 @@ import json
 from fastapi import APIRouter, HTTPException, Depends
 from fastapi.responses import StreamingResponse
 
-from ..main import verify_token
+from ..auth import verify_token
 from ..models.schemas import ChatRequest
 from ..rag.hybrid_search import hybrid_search
 from ..db.repository import save_conversation

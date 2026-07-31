@@ -3,7 +3,7 @@ import os
 import uuid
 from fastapi import APIRouter, UploadFile, File, HTTPException, Depends
 
-from ..main import verify_token
+from ..auth import verify_token
 from ..config import UPLOAD_DIR
 from ..rag.parser import parse_document
 from ..rag.chunker import chunk_document
