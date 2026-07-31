@@ -5,7 +5,7 @@
       <nav class="app-nav">
         <router-link to="/chat">问答</router-link>
         <router-link to="/documents">文档管理</router-link>
-        <a href="https://fusu.pw/article/18" target="_blank">使用示例</a>
+        <a href="https://fusu.pw/article/18" target="_blank">使用演示</a>
         <a href="https://github.com/fusu51/DocMind" target="_blank">GitHub</a>
       </nav>
     </header>
