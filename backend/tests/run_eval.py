@@ -1,6 +1,6 @@
 """DocMind 管线评估 — split_merged.json + 外域拒答 + 多维度评分"""
-import json, asyncio, sys, time
-sys.path.insert(0, "D:\\Code\\Agent\\ResumeProject_05\\DocMind\\backend")
+import json, asyncio, sys, time, os
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from dotenv import load_dotenv; load_dotenv()
 

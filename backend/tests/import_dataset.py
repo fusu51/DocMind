@@ -1,6 +1,6 @@
 """增量导入 split_merged.json — 跳过已入库文档"""
 import json, os, sys
-sys.path.insert(0, "D:\\Code\\Agent\\ResumeProject_05\\DocMind\\backend")
+sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from app.rag.chunker import chunk_document
 from app.rag.retriever import add_chunks
