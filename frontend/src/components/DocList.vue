@@ -54,7 +54,9 @@ function formatSize(bytes) {
 
 function formatTime(ts) {
   if (!ts) return '-'
-  return ts.replace('T', ' ').slice(0, 19)
+  const d = new Date(ts.replace(' ', 'T') + 'Z')
+  if (isNaN(d.getTime())) return ts.slice(0, 19)
+  return d.toLocaleString('zh-CN', { hour12: false })
 }
 </script>
 
