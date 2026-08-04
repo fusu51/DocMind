@@ -46,7 +46,8 @@ async function submit() {
   if (!t) return
 
   try {
-    const res = await fetch('http://localhost:8001/api/health', {
+    const healthUrl = import.meta.env.DEV ? 'http://localhost:8001/api/health' : '/api/health'
+    const res = await fetch(healthUrl, {
       headers: { 'X-DocMind-Token': t },
     })
     const data = await res.json()

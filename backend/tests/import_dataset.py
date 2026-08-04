@@ -8,7 +8,7 @@ from app.db.repository import add_document
 from app.db.models import get_connection
 from app.config import UPLOAD_DIR
 
-with open("split_merged.json", "r", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(__file__), "split_merged.json"), "r", encoding="utf-8") as f:
     data = json.load(f)
 
 items = data["event_summary"]
