@@ -88,9 +88,13 @@ export async function chatStream(question, docId, history, callbacks) {
         : `${BASE_URL}/chat`
 
     try {
+        const headers = { 'Content-Type': 'application/json' }
+        const token = getToken()
+        if (token) headers['X-DocMind-Token'] = token
+
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers,
             body: JSON.stringify({ question, history }),
         })
 
